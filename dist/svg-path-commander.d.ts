@@ -58,13 +58,15 @@ export interface GlyphAttr {
 	d: string;
 	[key: string]: string | number;
 }
-export interface PathBBox {
-	width: number;
-	height: number;
+export interface BasicPathBBox {
 	x: number;
 	y: number;
 	x2: number;
 	y2: number;
+}
+export interface PathBBox extends BasicPathBBox {
+	width: number;
+	height: number;
 	cx: number;
 	cy: number;
 	cz: number;
@@ -435,6 +437,37 @@ declare class SVGPathCommander {
 	 * @public
 	 */
 	flipY(): this;
+	/**
+	 * Interpolate to a new bounding box
+	 *
+	 * @param boundingBox
+	 * @public
+	 */
+	interpolate(boundingBox: BasicPathBBox): this;
+	/**
+	 * Interpolate to a new bounding box
+	 *
+	 * @param boundingBox
+	 * @public
+	 */
+	centerIn(boundingBox: BasicPathBBox): this;
+	/**
+	 * Uniformly scale a bounding box so that the largest dimension
+	 * now starts and ends with the provided min and max
+	 *
+	 * @param min
+	 * @param max
+	 * @public
+	 */
+	getUniformlyScaledBBox(min: number, max: number): BasicPathBBox;
+	/**
+	 * Uniformly scale a path so that the largest dimension
+	 * now starts and ends with the provided min and max
+	 *
+	 * @param min
+	 * @param max
+	 */
+	uniformlyScale(min: number, max: number): this;
 	/**
 	 * Export the current path to be used
 	 * for the `d` (description) attribute.
