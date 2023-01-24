@@ -1,5 +1,5 @@
 import { PathArray, TransformObjectValues } from './types';
-import { Options, PathBBox, TransformEntries, TransformObject } from './interface';
+import { BasicPathBBox, Options, PathBBox, TransformEntries, TransformObject } from './interface';
 import defaultOptions from './options/options';
 
 import error from './parser/error';
@@ -44,6 +44,7 @@ import pathToAbsolute from './convert/pathToAbsolute';
 import pathToRelative from './convert/pathToRelative';
 import pathToCurve from './convert/pathToCurve';
 import pathToString from './convert/pathToString';
+import interpolatePath from './process/interpolatePath';
 
 /**
  * Creates a new SVGPathCommander instance with the following properties:
@@ -341,6 +342,18 @@ class SVGPathCommander {
    */
   flipY() {
     this.transform({ rotate: [180, 0, 0] });
+    return this;
+  }
+
+  /**
+   * Interpolate to a new bounding box
+   *
+   * @param boundingBox
+   * @public
+   */
+  public interpolate(boundingBox: BasicPathBBox) {
+    const inputBBox = this.getBBox();
+    this.segments = interpolatePath(this.segments, inputBBox, boundingBox);
     return this;
   }
 

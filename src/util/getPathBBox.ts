@@ -40,7 +40,7 @@ const getPathBBox = (path?: PathArray | string): PathBBox => {
     y2: yMax,
     cx: xMin + width / 2,
     cy: yMin + height / 2,
-    // an estimted guess
+    // an estimate
     cz: Math.max(width, height) + Math.min(width, height) / 2,
   };
 };

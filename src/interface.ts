@@ -71,13 +71,16 @@ export interface ShapeParams {
   glyph: ['d'];
 }
 
-export interface PathBBox {
-  width: number;
-  height: number;
+export interface BasicPathBBox {
   x: number;
   y: number;
   x2: number;
   y2: number;
+}
+
+export interface PathBBox extends BasicPathBBox {
+  width: number;
+  height: number;
   cx: number;
   cy: number;
   cz: number;
