@@ -45,6 +45,7 @@ import pathToRelative from './convert/pathToRelative';
 import pathToCurve from './convert/pathToCurve';
 import pathToString from './convert/pathToString';
 import interpolatePath from './process/interpolatePath';
+import centerPathInViewBox from "./process/centerPathInViewbox";
 
 /**
  * Creates a new SVGPathCommander instance with the following properties:
@@ -354,6 +355,17 @@ class SVGPathCommander {
   public interpolate(boundingBox: BasicPathBBox) {
     const inputBBox = this.getBBox();
     this.segments = interpolatePath(this.segments, inputBBox, boundingBox);
+    return this;
+  }
+
+  /**
+   * Interpolate to a new bounding box
+   *
+   * @param boundingBox
+   * @public
+   */
+  public centerIn(boundingBox: BasicPathBBox) {
+    this.segments = centerPathInViewBox(this.segments, boundingBox);
     return this;
   }
 
