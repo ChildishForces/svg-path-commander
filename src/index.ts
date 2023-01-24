@@ -45,7 +45,8 @@ import pathToRelative from './convert/pathToRelative';
 import pathToCurve from './convert/pathToCurve';
 import pathToString from './convert/pathToString';
 import interpolatePath from './process/interpolatePath';
-import centerPathInViewBox from "./process/centerPathInViewbox";
+import centerPathInViewBox from './process/centerPathInViewbox';
+import getScaledViewBox from './math/getScaledViewBox';
 
 /**
  * Creates a new SVGPathCommander instance with the following properties:
@@ -366,6 +367,31 @@ class SVGPathCommander {
    */
   public centerIn(boundingBox: BasicPathBBox) {
     this.segments = centerPathInViewBox(this.segments, boundingBox);
+    return this;
+  }
+
+  /**
+   * Uniformly scale a bounding box so that the largest dimension
+   * now starts and ends with the provided min and max
+   *
+   * @param min
+   * @param max
+   * @public
+   */
+  public getUniformlyScaledBBox(min: number, max: number): BasicPathBBox {
+    return getScaledViewBox(this.getBBox(), min, max);
+  }
+
+  /**
+   * Uniformly scale a path so that the largest dimension
+   * now starts and ends with the provided min and max
+   *
+   * @param min
+   * @param max
+   */
+  public uniformlyScale(min: number, max: number) {
+    const newBoundingBox = this.getUniformlyScaledBBox(min, max);
+    this.interpolate(newBoundingBox);
     return this;
   }
 
